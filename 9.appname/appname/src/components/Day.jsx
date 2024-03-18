@@ -1,19 +1,19 @@
-import dummy from "../db/data.json";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Word from "./Word";
+import useFetch from "../hooks/useFetch"; // useFetch 함수를 import합니다.
 
 const Day = () => {
   const { day } = useParams();
-  const wordList = dummy.words.filter((word) => word.day === Number(day));
-  console.log(wordList);
+  const words = useFetch(`http://localhost:3000/words?day=${day}`); // day 변수를 템플릿 리터럴로 사용하여 URL을 생성합니다.
 
   return (
     <div>
       <h2>Day {day}</h2>
       <table>
         <tbody>
-          {wordList.map((word, index) => (
-            <Word word={word} key={index} />
+          {words.map((word) => ( 
+            <Word word={word} key={word.id} />
           ))}
         </tbody>
       </table>
